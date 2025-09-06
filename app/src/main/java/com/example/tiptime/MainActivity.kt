@@ -54,6 +54,9 @@ import androidx.compose.foundation.layout.size
 import androidx.compose.ui.text.input.ImeAction
 import androidx.compose.material3.Switch
 import androidx.compose.foundation.layout.wrapContentWidth
+import androidx.annotation.DrawableRes
+import androidx.compose.material3.Icon
+import androidx.compose.ui.res.painterResource
 
 class MainActivity : ComponentActivity() {
     override fun onCreate(savedInstanceState: Bundle?) {
@@ -81,7 +84,9 @@ fun TipTimeLayout() {
 
     val tip = calculateTip(amount, tipPercent, roundUp)
     Column(
-        modifier = Modifier.padding(40.dp),
+        modifier = Modifier
+            .padding(40.dp)
+            .verticalScroll(rememberScrollState()),
         horizontalAlignment = Alignment.CenterHorizontally,
         verticalArrangement = Arrangement.Center
     ) {
@@ -98,6 +103,7 @@ fun TipTimeLayout() {
                 imeAction = ImeAction.Next
             ),
             value = amountInput,
+            leadingIcon = R.drawable.money,
             onValueChanged = { amountInput = it },
             modifier = Modifier
                 .padding(bottom = 32.dp)
@@ -110,6 +116,7 @@ fun TipTimeLayout() {
                 imeAction = ImeAction.Done
             ),
             value = tipInput,
+            leadingIcon = R.drawable.percent,
             onValueChanged = { tipInput = it },
             modifier = Modifier
                 .padding(bottom = 32.dp)
@@ -131,6 +138,7 @@ fun TipTimeLayout() {
 @Composable
 fun EditNumberField(
     @StringRes label: Int,
+    @DrawableRes leadingIcon: Int,
     keyboardOptions: KeyboardOptions,
     value: String,
     onValueChanged: (String) -> Unit,
@@ -138,6 +146,7 @@ fun EditNumberField(
 ) {
     TextField(
         value = value,
+        leadingIcon = { Icon(painter = painterResource(id = leadingIcon), null) },
         singleLine = true,
         modifier = modifier,
         onValueChange = onValueChanged,
